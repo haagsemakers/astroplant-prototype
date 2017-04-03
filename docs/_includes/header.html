@@ -2,7 +2,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
 <title>
-  AstroPlant
+  {% if page.title %}
+    {{ page.title }} &middot; {{ site.title }}
+  {% else %}
+    {{ site.title }} &middot; {{ site.description }}
+  {% endif %}
 </title>
 
 <!-- Bootstrap core CSS -->
