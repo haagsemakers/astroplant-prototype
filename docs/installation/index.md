@@ -178,6 +178,18 @@ Make sure the logs are properly rotated, or they will completely fill the storag
       dateformat %Y-%m-%d.
     }
 
+### Arduino
+To make the Arduino go to work, we have to upload the sketch (with required libraries) to the board.
+- Connect Arduino to your computer
+- Make sure you have a connection in the Arduino IDE
+- Open the Arduino folder from the AstroPlant codebase
+- Verify and upload the sketch
+- Done!
 
-## Backend
-</div>
+## DONE!
+After a reboot, the system should be running and sending its data to the AstroPlant backend.
+
+**Debugging tips**
+ - You can connect the arduino to your computer and open the serial monitor.
+ - On the Raspberry, logs are streamed to /home/pi/logs
+ - You should be able to see a status page at http://astroplant001.local
