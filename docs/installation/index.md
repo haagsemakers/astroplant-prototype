@@ -5,49 +5,92 @@ title: Installation
 
 This page describes the installation of the AstroPlant Development Kit.
 
+<hr>
 ## Hardware
-Connecting all hardware components
+Connecting all hardware components for the development kit is pretty straightforward. For this prototype version we have chosen to use as many plug-and-play and of-the-shelf products as possible. So we use an IKEA plant care kit in combination with basic Grove sensors.
 
-Connect the Arduino and Raspberry
-There are many ways of Linking them such as using USB cable and Serial Connection. Why do we choose to use I2C? One reason could be it does not use your serial, USB on the Pi. Given the fact that there are only 2 USB ports, this is definitely a big advantage. Secondly, flexibility. You can easily connect up to 128 slaves with the Pi. Also we can just link them directly without a Logic Level Converter.
+### Setting up the casing
+  - Set up the IKEA Krydda and Växer as instructed in the IKEA manual
+  - Cut the foamboard according to the [pattern]()
+  - Create the strip of foamboard for the LED light strip
+  - Tape everything in place using duct-tape / double sided tape
 
-Raspberry Pi as master and Arduino as slave for I2C communication
+### Connect the electronic components
+For the development kit we use a raspberry pi and an Arduino. The Raspberry runs on 3.3v and the Arduino on 5v.
+The idea for future version is that you could attached multiple Arduino's (AstroPlant Modules) with one Raspberry. This means that the Raspberry is the host and the Arduino the slave.
 
-The Raspberry Pi is running at 3.3 Volts while the Arduino is running at 5 Volts. There are tutorials suggest using a level converter for the I2C communication. This is NOT needed if the Raspberry Pi is running as “master” and the Arduino is running as “slave”.
+Since there are limited USB ports on the Raspberry, and the fact that there is a possibility to connect up to 128 slaves we chose to use the I2C connection. Using I2C we can connect the two directly, without using a Level Logic Converter. The reason it works is because the Arduino does not have any pull-ups resistors installed, but the P1 header on the Raspberry Pi has 1k8 ohms resistors to the 3.3 volts power rail. Data is transmitted by pulling the lines to 0v, for a “high” logic signal. For “low” logic signal, it’s pulled up to the supply rail voltage level. Because there is no pull-up resistors in the Arduino and because 3.3 volts is within the “low” logic level range for the Arduino everything works as it should [[Source]](https://oscarliang.com/raspberry-pi-arduino-connected-i2c/).
 
-The reason it works is because the Arduino does not have any pull-ups resistors installed, but the P1 header on the Raspberry Pi has 1k8 ohms resistors to the 3.3 volts power rail. Data is transmitted by pulling the lines to 0v, for a “high” logic signal. For “low” logic signal, it’s pulled up to the supply rail voltage level. Because there is no pull-up resistors in the Arduino and because 3.3 volts is within the “low” logic level range for the Arduino everything works as it should.
+Note that the built-in pull-up resistors are only available on the Pi’s I2C pins: [Pins 3 (SDA) and 5 (SCL)]( https://pinout.xyz/pinout/1_wire_pi_zero). On the Arduino Uno, the I2C pins are pins A4 (SDA) and A5 (SCL).
 
-https://oscarliang.com/raspberry-pi-arduino-connected-i2c/
-Note that the built-in pull-up resistors are only available on the Pi’s I2C pins (Pins 3 (SDA) and 5 (SCL), i.e. the GPIO0 and GPIO1 on a Rev. 1 board, GPIO2 and GPIOP3 on a Rev. 2 board:
-On the Arduino Uno, the I2C pins are pins A4 (SDA) and A5 (SCL), On the Arduino Mega, they are 20 (SDA), 21 (SCL)
-raspberry pi zero pinout: https://pinout.xyz/pinout/1_wire_pi_zero
+#### Component connection list
 
-Check if I2C is enabled at the rpi0:
+  1. Connect RPi 3 with Arduino A4
+  2. Connect RPi 5 with Arduino A5
+  3. Connect the **Digital Light Sensor** with Grove I2C
+  4. Connect the **Barometer** with Grove I2C
+  5. Connect the **Digital Infrared Temperature sensor** with Grove I2C
+  6. Connect the **Water sensor** with Grove D8
+  7. Connect the **DS18B20 digital temperature sensor**: Solder the wires to the Grove connector: red wire to 5V, black wire to GND, yellow wire for data. Connect the 4.7kOhm resistor with + and DATA. Connect to Grove D7
+  8. Connect the **LED Strip**: Solder the wires to a Grove connector. Connect to D6
+  9. Connect the **Cooling fan**: Solder the wires to a Grove connector. Connect to D5
 
+#### Component documentation:
+  - Grove Digital Light Sensor:
+    - [Seed Studio Wiki](http://wiki.seeed.cc/Grove-Digital_Light_Sensor/)
+    - Input Voltage: 3.3 is possible, 5v is typical
+    - Operating current:
+    - Connect using I2C, address 0x29
+    - Use this [Library](https://github.com/Seeed-Studio/Grove_Digital_Light_Sensor)
+  - Grove Barometer Sensor
+    - [Seed Studio Wiki](http://wiki.seeed.cc/Grove-Barometer_Sensor-BME280/)
+    - Input Voltage: 3.3V or 5V
+    - Operating current: 0.4mA
+    - Connection: I2C (default), address 0x76
+    - Use this [library](https://github.com/Seeed-Studio/Grove_BME280)
+  - Grove Digital Infrared Temperature Sensor
+    - [Seed Studio Wiki](http://www.seeedstudio.com/wiki/Grove_-_Digital_Infrared_Temperature_Sensor)
+    - Input Voltage: 3.3V or 5V
+    - Operating current: 0.4mA
+    - Connection: Since the sensor is factory calibrated with the digital SMBus compatible interface enabled,but the library is based on a soft i2c library,so you can use any digital pins on any AVR chip to drive the SDA and SCL lines.We use D2 as the SCL pin and D3 as the SDA pin in this demo code.
+    - Use this [Library](https://github.com/Seeed-Studio/Digital_Infrared_Temperature_Sensor_MLX90615)
+  - Grove Water Sensor
+    - [Seed Studio Wiki](http://wiki.seeed.cc/Grove-Water_Sensor/)
+    - Input Voltage: 3.3V or 5V
+    - Operating current: 1.4mA
+    - Connection: I2C
+  - DS18B20 Digital Temperature Sensor
+    - Input Voltage: 3.0V to 5.5V
+    - Operating Current: ..
+    - [Example code](https://create.arduino.cc/projecthub/TheGadgetBoy/ds18b20-digital-temperature-sensor-and-arduino-9cc806)
+    - [Library](https://github.com/milesburton/Arduino-Temperature-Control-Library)
+  - LED Light Strip
+    - Input Voltage: 5V
+    - Operating Current: 1.8A/m (maximum, depending on number of leds and brightness)
+    - [Library](http://learn.makeblock.com/Makeblock-library-for-Arduino/index.html)
 
-## Software configuration
+<hr>
+## Software
 
-### Required software
-Current development is being done on a Mac, we have used the following software to create the AstroPlant Dev Kit:
-  - [Arduino IDE 1.6.13]()
-  - [Atom IDE 1.15.0]()
+### Development software tools
+Current development is being done on Mac OSX, we have used the following software to create the AstroPlant Dev Kit:
+  - [Arduino IDE 1.6.13](https://www.arduino.cc/en/main/software)
+  - [Atom IDE 1.15.0](https://atom.io/)
   - [ApplePiBaker](https://www.tweaking4all.com/software/macosx-software/macosx-apple-pi-baker/)
-  - [Homebrew 1.1.11]()
-  - [NodeJS v7.8.0]()
-  -
+  - [Homebrew 1.1.11](https://brew.sh/)
+  - [NodeJS v7.8.0](https://nodejs.org/en/)
 
 ### Raspberry Pi
 
-#### Installation (RPi)
-We use a Raspberry Pi Zero W. This is a low cost and small micro-computer with onboard wifi and bluetooth. The Raspberry is the heart of the Astroplant.  
-For the prototype, we have to hardcode the wifi credentials for the location where the Astroplant is placed. It is possible to add multiple wifi access points.  
-Use Pi Baker to install Raspbian to the sd-card.  
+#### Raspberry Pi Installation
+We use a Raspberry Pi Zero W. This is a low cost and small micro-computer with onboard wifi and bluetooth. The Raspberry is the heart of the AstroPlant. For the prototype, we have to hardcode the wifi credentials for the location where the AstroPlant is placed. It is possible to add multiple wifi access points. We use [ApplePiBaker](https://www.tweaking4all.com/software/macosx-software/macosx-apple-pi-baker/) to install [Raspbian Jessie Lite](https://www.raspberrypi.org/downloads/raspbian/) to the sd-card.  
 
-#### Configuration (RPi)
-
-  - In the boot partition on your computer, add to the bottom of the `config.txt` file `dtoverlay=dwc2` on a new line, then save the file.
-  - Add a new blank file calles `ssh` to the root of the boot partition.
-  - Open `cmdline.txt` and insert `modules-load=dwc2,g_ether` after `rootwait`. This configuration is very picky with its formatting! Each parameter is seperated by a single space (it does not use newlines).
+#### Raspberry Pi Configuration
+We need to add and configure some files in the boot partition of the sd-card. This is to make sure the Raspberry will boot up in the right way.  
+  - Insert the sd-card in your computer.
+  - In the boot partition of the sd-card, add to the bottom of the `config.txt` file `dtoverlay=dwc2` on a new line, then save the file.
+  - Add a new blank file calles `ssh` to the root of the boot partition. This is to enable SSH access.
+  - Open `cmdline.txt` and insert `modules-load=dwc2,g_ether` after `rootwait`. This configuration is very picky with its formatting! Each parameter is separated by a single space (it does not use newlines).
   - Add `wpa_supplicant.conf` to the root of the sd-card. When starting up, Raspbian will use this file to setup the wifi. This version of the raspberry only works with 2.4GHz networks (not 5GHz!). Use the following contents (with your own credentials):
 
         country=GB
@@ -64,23 +107,28 @@ Use Pi Baker to install Raspbian to the sd-card.
         psk="passwordHome"
         id_str="home"
         }
-        [Reference](https://gist.github.com/gbaman/975e2db164b3ca2b51ae11e45e8fd40a)
+
+[Reference](https://gist.github.com/gbaman/975e2db164b3ca2b51ae11e45e8fd40a)
 
 #### Access from local computer
-Look up the ipaddress of 'raspberrypi' in the router network list.  
-Use SSH to login: pi@192.1.1.1 with the default password 'raspberry'.  
+At this point, it can be difficult to obtain the ip-address of the device. For now, it is needed to look up the ip-address of 'raspberrypi' in the router network list. This means you have to log into the router and look up the device.
+When you know the ip-address you can use SSH to login: pi@192.x.x.x with the default password 'raspberry'.  
 
 #### Change the hostname
+To make it easier to identify the kit on the network, it is better to change the hostname of the device. The default hostname is 'raspberrypi'. Let's change that to 'astroplant001'
 
       sudo raspi-config
-      --> change hostname: astroplant
+      --> change hostname: astroplant001
       --> finish
 
-Using avahi-daemon makes it possible to access the pi using [astroplant.local](http://astroplant.local):
+Using the avahi-daemon package makes it possible to access the device using [astroplant001.local](http://astroplant001.local). Using this method, you do not need to know the ip-address of the network.
 
       sudo apt-get install avahi-daemon
+      sudo reboot -n
 
 #### Enable I2C
+To make communication between the raspberry and arduino possible, we need to enable I2c Communication on the Raspberry. This is disabled by default.
+
     sudo apt-get install -y python-smbus i2c-tools
     sudo raspi-config
       7 Advanced Options --> expand filesystem
@@ -88,14 +136,26 @@ Using avahi-daemon makes it possible to access the pi using [astroplant.local](h
       <Finish>
     sudo reboot -n
 
+    # Check if I2C is enabled at the rpi0:
+    sudo i2cdetect -y 1
+
   [Reference](https://learn.adafruit.com/adafruits-raspberry-pi-lesson-4-gpio-setup/configuring-i2c)
+
+#### Download the AstroPlant firmware
+Clone the latest version of the firmware. We put the code in /home/pi/astroplant. Also add the right certificates for AWS.
+
+      cd
+      git clone http://github.com/urbanlink/astroplant-prototype astroplant
+      nano /certs/xxxxxx-certificate.pem.cert >> copy cert
+      nano /certs/xxxxxx-private.pem.key >> copy cert
+      nano /certs/123.cert >> copy cert
 
 #### Boot the node server at startup
 We use the 'forever' module to keep the server running:
 
     npm install -g forever
     crontab -u pi -e
-    @reboot /usr/bin/sudo -u pi -H /usr/local/bin/forever start -e /home/pi/astroplant/logs/error.log -l /home/pi/astroplant/logs/logs.log -a /home/pi/astroplant/server.js
+    @reboot /usr/bin/sudo -u pi -H /usr/local/bin/forever start -e /home/pi/astroplant/logs/error.log -l /home/pi/astroplant/logs/logs.log -a /home/pi/astroplant/raspberry/server/server.js
     --> ctrl-x
     --> yes
     sudo reboot -n
@@ -118,14 +178,6 @@ Make sure the logs are properly rotated, or they will completely fill the storag
       dateformat %Y-%m-%d.
     }
 
-  ###
-
-  ### Pumps & Lights
-
-
-  ## Software
-  ### Raspberry pi
-  The main process is a nodejs server starting at boot.
 
 ## Backend
 </div>
