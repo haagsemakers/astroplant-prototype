@@ -6,7 +6,7 @@
 
 <title>
   
-    Installation &middot; AstroPlant
+    Installation &middot; AstroPlant Development Kit
   
 </title>
 
@@ -32,7 +32,7 @@
   <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
-  <a class="navbar-brand" href="#">Astroplant</a>
+  <a class="navbar-brand" href="#">Astroplant Dev Kit</a>
 
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
@@ -59,7 +59,7 @@
     <div class="container">
       <div class="row">
         <div class="col-12 col-md-3 push-md-9 bd-sidebar">
-          <form class="bd-search d-none d-sm-block">
+          <!-- <form class="bd-search d-none d-sm-block">
   <input type="search" class="form-control" id="search-input" placeholder="Search..." aria-label="Search for..." autocomplete="off">
   <div class="dropdown-menu bd-search-results" id="search-results"></div>
 </form>
@@ -67,120 +67,155 @@
 <nav class="bd-links" id="docsNavbarContent">
   
   
-</nav>
+</nav> -->
+
+<img src="/assets/img/astroplant.jpg" class="img-fluid">
 
         </div>
         <div class="col-12 col-md-9 pull-md-3 bd-content">
           <h1 class="bd-title" id="content">Installation</h1>
-          <main class="" id="content">
-  <h2>Hardware</h2>
-    <h3>Sensors &amp; Arduino</h3>
-    <h3>Raspberry Pi</h3>
-    <h4>Installation</h4>
-    <p>We use a Raspberry Pi Zero W. This is a low cost and small micro-computer with onboard wifi and bluetooth. The Raspberry is the heart of the Astroplant.</p>
-    <p>For the prototype, we have to hardcode the wifi credentials for the location where the Astroplant is placed. It is possible to add multiple wifi access points.</p>
-    <p>Use Pi Baker to install Raspbian to the sd-card.</p>
-    <h4>Configuration</h4>
-    <ul>
-      <li>In the boot partition on your computer, add to the bottom of the `config.txt` file `dtoverlay=dwc2` on a new line, then save the file.</li>
-      <li>Add a new blank file calles `ssh` to the root of the boot partition.</li>
-      <li>Open `cmdline.txt` and insert `modules-load=dwc2,g_ether` after `rootwait`. This configuration is very picky with its formatting! Each parameter is seperated by a single space (it does not use newlines).</li>
-      <li>Add `wpa_supplicant.conf` to the root of the sd-card. When starting up, Raspbian will use this file to setup the wifi. This version of the raspberry only works with 2.4GHz networks (not 5GHz!). Use the following contents (with your own credentials):
+          <p>This page describes the installation of the AstroPlant Development Kit.</p>
 
-        country=GB
-        ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
-        update_config=1
+<h2 id="hardware">Hardware</h2>
+<p>Connecting all hardware components</p>
 
-        network={
-        ssid="WorkSSID"
-        psk="passwordWork"
-        id_str="work"
-        }
-        network={
-        ssid="HomeNetworkSSID"
-        psk="passwordHome"
-        id_str="home"
-        }
-        [Reference](https://gist.github.com/gbaman/975e2db164b3ca2b51ae11e45e8fd40a)
-      </li>
-    </ul>
-    <h4>Access from local computer</h4>
-    <p>Look up the ipaddress of 'raspberrypi' in the router network list.<br />
-    Use SSH to login: pi@192.1.1.1 with the default password 'raspberry'.
-    <h5>Change the hostname</h5>
+<p>Connect the Arduino and Raspberry
+There are many ways of Linking them such as using USB cable and Serial Connection. Why do we choose to use I2C? One reason could be it does not use your serial, USB on the Pi. Given the fact that there are only 2 USB ports, this is definitely a big advantage. Secondly, flexibility. You can easily connect up to 128 slaves with the Pi. Also we can just link them directly without a Logic Level Converter.</p>
 
-      sudo raspi-config
-      --&gt; change hostname: astroplant
-      --&gt; finish
+<p>Raspberry Pi as master and Arduino as slave for I2C communication</p>
 
-  Using avahi-daemon makes it possible to access the pi using [astroplant.local](http://astroplant.local):
+<p>The Raspberry Pi is running at 3.3 Volts while the Arduino is running at 5 Volts. There are tutorials suggest using a level converter for the I2C communication. This is NOT needed if the Raspberry Pi is running as “master” and the Arduino is running as “slave”.</p>
 
-      sudo apt-get install avahi-daemon
+<p>The reason it works is because the Arduino does not have any pull-ups resistors installed, but the P1 header on the Raspberry Pi has 1k8 ohms resistors to the 3.3 volts power rail. Data is transmitted by pulling the lines to 0v, for a “high” logic signal. For “low” logic signal, it’s pulled up to the supply rail voltage level. Because there is no pull-up resistors in the Arduino and because 3.3 volts is within the “low” logic level range for the Arduino everything works as it should.</p>
 
-  ##### Enable I2C
-      sudo apt-get install -y python-smbus i2c-tools
-      sudo raspi-config
-        7 Advanced Options --&gt; expand filesystem
-        4 Interfacing Options --&gt; P5 I2C --&gt; <yes>
-        <Finish>
-      sudo reboot -n
+<p>https://oscarliang.com/raspberry-pi-arduino-connected-i2c/
+Note that the built-in pull-up resistors are only available on the Pi’s I2C pins (Pins 3 (SDA) and 5 (SCL), i.e. the GPIO0 and GPIO1 on a Rev. 1 board, GPIO2 and GPIOP3 on a Rev. 2 board:
+On the Arduino Uno, the I2C pins are pins A4 (SDA) and A5 (SCL), On the Arduino Mega, they are 20 (SDA), 21 (SCL)
+raspberry pi zero pinout: https://pinout.xyz/pinout/1_wire_pi_zero</p>
 
-  [Reference](https://learn.adafruit.com/adafruits-raspberry-pi-lesson-4-gpio-setup/configuring-i2c)
+<p>Check if I2C is enabled at the rpi0:</p>
 
-  #### Boot the node server at startup
-  We use the 'forever' module to keep the server running:
+<h2 id="software-configuration">Software configuration</h2>
 
-      npm install -g forever
-      crontab -u pi -e
-      @reboot /usr/bin/sudo -u pi -H /usr/local/bin/forever start -e /home/pi/astroplant/logs/error.log -l /home/pi/astroplant/logs/logs.log -a /home/pi/astroplant/server.js
-      --&gt; ctrl-x
-      --&gt; yes
-      sudo reboot -n
+<h3 id="required-software">Required software</h3>
+<p>Current development is being done on a Mac, we have used the following software to create the AstroPlant Dev Kit:</p>
+<ul>
+  <li><a href="">Arduino IDE 1.6.13</a></li>
+  <li><a href="">Atom IDE 1.15.0</a></li>
+  <li><a href="https://www.tweaking4all.com/software/macosx-software/macosx-apple-pi-baker/">ApplePiBaker</a></li>
+  <li><a href="">Homebrew 1.1.11</a></li>
+  <li><a href="">NodeJS v7.8.0</a>
+  -</li>
+</ul>
 
-  #### Log rotate
-  Make sure the logs are properly rotated, or they will completely fill the storage on the raspberry
+<h3 id="raspberry-pi">Raspberry Pi</h3>
 
-      sudo nano /etc/logrotate.d/astroplant-server
-      /home/pi/astroplant/logs/server.log {
-        #size 50k
-        daily         # how often to rotate
-        dateext       # adds date to filename
-        missingok     # don't panic if the log file doesn't exist
-        rotate 10     # max num of log files to keep
-        compress      # compress rotated log file with gzip
-        delaycompress
-        notifempty    # ignore empty files
-        #create 644 root
-        copytruncate  # needed for forever to work properly
-        dateformat %Y-%m-%d.
-      }
+<h4 id="installation-rpi">Installation (RPi)</h4>
+<p>We use a Raspberry Pi Zero W. This is a low cost and small micro-computer with onboard wifi and bluetooth. The Raspberry is the heart of the Astroplant.<br />
+For the prototype, we have to hardcode the wifi credentials for the location where the Astroplant is placed. It is possible to add multiple wifi access points.<br />
+Use Pi Baker to install Raspbian to the sd-card.</p>
 
-  ### Connect the Arduino and Raspberry
-  There are many ways of Linking them such as using USB cable and Serial Connection. Why do we choose to use I2C? One reason could be it does not use your serial, USB on the Pi. Given the fact that there are only 2 USB ports, this is definitely a big advantage. Secondly, flexibility. You can easily connect up to 128 slaves with the Pi. Also we can just link them directly without a Logic Level Converter.
+<h4 id="configuration-rpi">Configuration (RPi)</h4>
 
-  Raspberry Pi as master and Arduino as slave for I2C communication
+<ul>
+  <li>In the boot partition on your computer, add to the bottom of the <code class="highlighter-rouge">config.txt</code> file <code class="highlighter-rouge">dtoverlay=dwc2</code> on a new line, then save the file.</li>
+  <li>Add a new blank file calles <code class="highlighter-rouge">ssh</code> to the root of the boot partition.</li>
+  <li>Open <code class="highlighter-rouge">cmdline.txt</code> and insert <code class="highlighter-rouge">modules-load=dwc2,g_ether</code> after <code class="highlighter-rouge">rootwait</code>. This configuration is very picky with its formatting! Each parameter is seperated by a single space (it does not use newlines).</li>
+  <li>
+    <p>Add <code class="highlighter-rouge">wpa_supplicant.conf</code> to the root of the sd-card. When starting up, Raspbian will use this file to setup the wifi. This version of the raspberry only works with 2.4GHz networks (not 5GHz!). Use the following contents (with your own credentials):</p>
 
-  The Raspberry Pi is running at 3.3 Volts while the Arduino is running at 5 Volts. There are tutorials suggest using a level converter for the I2C communication. This is NOT needed if the Raspberry Pi is running as “master” and the Arduino is running as “slave”.
+    <div class="highlighter-rouge"><pre class="highlight"><code>country=GB
+ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
+update_config=1
 
-  The reason it works is because the Arduino does not have any pull-ups resistors installed, but the P1 header on the Raspberry Pi has 1k8 ohms resistors to the 3.3 volts power rail. Data is transmitted by pulling the lines to 0v, for a “high” logic signal. For “low” logic signal, it’s pulled up to the supply rail voltage level. Because there is no pull-up resistors in the Arduino and because 3.3 volts is within the “low” logic level range for the Arduino everything works as it should.
+network={
+ssid="WorkSSID"
+psk="passwordWork"
+id_str="work"
+}
+network={
+ssid="HomeNetworkSSID"
+psk="passwordHome"
+id_str="home"
+}
+[Reference](https://gist.github.com/gbaman/975e2db164b3ca2b51ae11e45e8fd40a)
+</code></pre>
+    </div>
+  </li>
+</ul>
 
-  https://oscarliang.com/raspberry-pi-arduino-connected-i2c/
-  Note that the built-in pull-up resistors are only available on the Pi’s I2C pins (Pins 3 (SDA) and 5 (SCL), i.e. the GPIO0 and GPIO1 on a Rev. 1 board, GPIO2 and GPIOP3 on a Rev. 2 board:
-  On the Arduino Uno, the I2C pins are pins A4 (SDA) and A5 (SCL), On the Arduino Mega, they are 20 (SDA), 21 (SCL)
-  raspberry pi zero pinout: https://pinout.xyz/pinout/1_wire_pi_zero
+<h4 id="access-from-local-computer">Access from local computer</h4>
+<p>Look up the ipaddress of ‘raspberrypi’ in the router network list.<br />
+Use SSH to login: pi@192.1.1.1 with the default password ‘raspberry’.</p>
 
-  Check if I2C is enabled at the rpi0:
+<h4 id="change-the-hostname">Change the hostname</h4>
 
-  ### Pumps &amp; Lights
+<div class="highlighter-rouge"><pre class="highlight"><code>  sudo raspi-config
+  --&gt; change hostname: astroplant
+  --&gt; finish
+</code></pre>
+</div>
 
+<p>Using avahi-daemon makes it possible to access the pi using <a href="http://astroplant.local">astroplant.local</a>:</p>
 
-  ## Software
+<div class="highlighter-rouge"><pre class="highlight"><code>  sudo apt-get install avahi-daemon
+</code></pre>
+</div>
+
+<h4 id="enable-i2c">Enable I2C</h4>
+<div class="highlighter-rouge"><pre class="highlight"><code>sudo apt-get install -y python-smbus i2c-tools
+sudo raspi-config
+  7 Advanced Options --&gt; expand filesystem
+  4 Interfacing Options --&gt; P5 I2C --&gt; &lt;yes&gt;
+  &lt;Finish&gt;
+sudo reboot -n
+</code></pre>
+</div>
+
+<p><a href="https://learn.adafruit.com/adafruits-raspberry-pi-lesson-4-gpio-setup/configuring-i2c">Reference</a></p>
+
+<h4 id="boot-the-node-server-at-startup">Boot the node server at startup</h4>
+<p>We use the ‘forever’ module to keep the server running:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>npm install -g forever
+crontab -u pi -e
+@reboot /usr/bin/sudo -u pi -H /usr/local/bin/forever start -e /home/pi/astroplant/logs/error.log -l /home/pi/astroplant/logs/logs.log -a /home/pi/astroplant/server.js
+--&gt; ctrl-x
+--&gt; yes
+sudo reboot -n
+</code></pre>
+</div>
+
+<h4 id="log-rotate">Log rotate</h4>
+<p>Make sure the logs are properly rotated, or they will completely fill the storage on the raspberry</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>sudo nano /etc/logrotate.d/astroplant-server
+/home/pi/astroplant/logs/server.log {
+  #size 50k
+  daily         # how often to rotate
+  dateext       # adds date to filename
+  missingok     # don't panic if the log file doesn't exist
+  rotate 10     # max num of log files to keep
+  compress      # compress rotated log file with gzip
+  delaycompress
+  notifempty    # ignore empty files
+  #create 644 root
+  copytruncate  # needed for forever to work properly
+  dateformat %Y-%m-%d.
+}
+</code></pre>
+</div>
+
+<p>###</p>
+
+<p>### Pumps &amp; Lights</p>
+
+<p>## Software
   ### Raspberry pi
-  The main process is a nodejs server starting at boot.
+  The main process is a nodejs server starting at boot.</p>
 
-## Backend
-&lt;/div&gt;
-</Finish></yes></p></main>
+<h2 id="backend">Backend</h2>
+<p>&lt;/div&gt;</p>
 
         </div>
       </div>
