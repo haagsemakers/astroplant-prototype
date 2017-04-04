@@ -5,3 +5,9 @@ twitter: astroplant
 authors: Arn van der Pluijm
 social_logo_path: /assets/brand/astroplant-social-logo.png
 social_image_path: /assets/brand/astroplant-social.png
+
+current_version: 0.0.1
+
+sass:
+    sass_dir: _sass
+    style: compressed
