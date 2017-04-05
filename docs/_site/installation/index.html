@@ -51,6 +51,9 @@
       <li class="nav-item">
         <a  class="nav-link" href="/app">App</a>
       </li>
+      <li class="nav-item">
+        <a  class="nav-link" href="/status">Status</a>
+      </li>
     </ul>
   </div>
 </nav>
@@ -100,7 +103,10 @@ The idea for future version is that you could attached multiple Arduino’s (Ast
 
 <p>Since there are limited USB ports on the Raspberry, and the fact that there is a possibility to connect up to 128 slaves we chose to use the I2C connection. Using I2C we can connect the two directly, without using a Level Logic Converter. The reason it works is because the Arduino does not have any pull-ups resistors installed, but the P1 header on the Raspberry Pi has 1k8 ohms resistors to the 3.3 volts power rail. Data is transmitted by pulling the lines to 0v, for a “high” logic signal. For “low” logic signal, it’s pulled up to the supply rail voltage level. Because there is no pull-up resistors in the Arduino and because 3.3 volts is within the “low” logic level range for the Arduino everything works as it should <a href="https://oscarliang.com/raspberry-pi-arduino-connected-i2c/">[Source]</a>.</p>
 
-<p>Note that the built-in pull-up resistors are only available on the Pi’s I2C pins: <a href="https://pinout.xyz/pinout/1_wire_pi_zero">Pins 3 (SDA) and 5 (SCL)</a>. On the Arduino Uno, the I2C pins are pins A4 (SDA) and A5 (SCL).</p>
+<p>Note that the built-in pull-up resistors are only available on the Pi’s I2C pins: <a href="https://pinout.xyz/pinout/1_wire_pi_zero">Pins 3 (SDA) and 5 (SCL)</a>. On the Arduino Uno, the I2C pins are pins A4 (SDA) and A5 (SCL).
+<br /><img src="/assets/img/pi0pinout.png" width="300" /></p>
+
+<p>The arduino is powered by the raspberry. Connect GND and 5V with the GND and 5V of the Arduino.</p>
 
 <h4 id="component-connection-list">Component connection list</h4>
 
@@ -124,7 +130,7 @@ The idea for future version is that you could attached multiple Arduino’s (Ast
       <li>Input Voltage: 3.3 is possible, 5v is typical</li>
       <li>Operating current:</li>
       <li>Connect using I2C, address 0x29</li>
-      <li>Use this <a href="https://github.com/Seeed-Studio/Grove_Digital_Light_Sensor">Library</a></li>
+      <li><a href="https://github.com/Seeed-Studio/Grove_Digital_Light_Sensor">Library</a></li>
     </ul>
   </li>
   <li>Grove Barometer Sensor
@@ -133,16 +139,16 @@ The idea for future version is that you could attached multiple Arduino’s (Ast
       <li>Input Voltage: 3.3V or 5V</li>
       <li>Operating current: 0.4mA</li>
       <li>Connection: I2C (default), address 0x76</li>
-      <li>Use this <a href="https://github.com/Seeed-Studio/Grove_BME280">library</a></li>
+      <li><a href="https://github.com/Seeed-Studio/Grove_BME280">library</a></li>
     </ul>
   </li>
-  <li>Grove Digital Infrared Temperature Sensor
+  <li>Grove Digital Infrared Temperature Sensor (Not working yet)
     <ul>
       <li><a href="http://www.seeedstudio.com/wiki/Grove_-_Digital_Infrared_Temperature_Sensor">Seed Studio Wiki</a></li>
       <li>Input Voltage: 3.3V or 5V</li>
       <li>Operating current: 0.4mA</li>
       <li>Connection: Since the sensor is factory calibrated with the digital SMBus compatible interface enabled,but the library is based on a soft i2c library,so you can use any digital pins on any AVR chip to drive the SDA and SCL lines.We use D2 as the SCL pin and D3 as the SDA pin in this demo code.</li>
-      <li>Use this <a href="https://github.com/Seeed-Studio/Digital_Infrared_Temperature_Sensor_MLX90615">Library</a></li>
+      <li><a href="https://github.com/Seeed-Studio/Digital_Infrared_Temperature_Sensor_MLX90615">Library</a></li>
     </ul>
   </li>
   <li>Grove Water Sensor
@@ -187,7 +193,7 @@ The idea for future version is that you could attached multiple Arduino’s (Ast
 <h3 id="raspberry-pi">Raspberry Pi</h3>
 
 <h4 id="raspberry-pi-installation">Raspberry Pi Installation</h4>
-<p>We use a Raspberry Pi Zero W. This is a low cost and small micro-computer with onboard wifi and bluetooth. The Raspberry is the heart of the AstroPlant. For the prototype, we have to hardcode the wifi credentials for the location where the AstroPlant is placed. It is possible to add multiple wifi access points. We use <a href="https://www.tweaking4all.com/software/macosx-software/macosx-apple-pi-baker/">ApplePiBaker</a> to install <a href="https://www.raspberrypi.org/downloads/raspbian/">Raspbian Jessie Lite</a> to the sd-card.</p>
+<p>We use a Raspberry Pi Zero W. This is a low cost and small micro-computer with onboard wifi and bluetooth. The Raspberry is the heart of the AstroPlant. For the prototype, we have to hardcode the wifi credentials for the location where the AstroPlant is placed. It is possible to add multiple wifi access points. We use <a href="https://www.tweaking4all.com/software/macosx-software/macosx-apple-pi-baker/">ApplePiBaker</a> to install <a href="https://www.raspberrypi.org/downloads/raspbian/">Raspbian Jessie Lite</a> (<a href="https://downloads.raspberrypi.org/raspbian_lite_latest">download link</a>) to the sd-card.</p>
 
 <h4 id="raspberry-pi-configuration">Raspberry Pi Configuration</h4>
 <p>We need to add and configure some files in the boot partition of the sd-card. This is to make sure the Raspberry will boot up in the right way.</p>
@@ -224,10 +230,14 @@ id_str="home"
 <p>At this point, it can be difficult to obtain the ip-address of the device. For now, it is needed to look up the ip-address of ‘raspberrypi’ in the router network list. This means you have to log into the router and look up the device.
 When you know the ip-address you can use SSH to login: pi@192.x.x.x with the default password ‘raspberry’.</p>
 
-<h4 id="change-the-hostname">Change the hostname</h4>
+<h4 id="initialization">Initialization</h4>
 <p>To make it easier to identify the kit on the network, it is better to change the hostname of the device. The default hostname is ‘raspberrypi’. Let’s change that to ‘astroplant001’</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>  sudo raspi-config
+<div class="highlighter-rouge"><pre class="highlight"><code>  sudo apt-get update
+  sudo apt-get upgrade
+  sudo raspi-config
+  --&gt; advanced: expand filesystem
+  --&gt; Localization options, change timezone, : en_GB.UTF_8
   --&gt; change hostname: astroplant001
   --&gt; finish
 </code></pre>
@@ -257,6 +267,16 @@ sudo i2cdetect -y 1
 
 <p><a href="https://learn.adafruit.com/adafruits-raspberry-pi-lesson-4-gpio-setup/configuring-i2c">Reference</a></p>
 
+<h4 id="install-nodejs">Install NodeJS</h4>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>wget http://node-arm.herokuapp.com/node_latest_armhf.deb
+sudo dpkg -i node_latest_armhf.deb
+node -v
+</code></pre>
+</div>
+
+<p><a href="http://weworkweplay.com/play/raspberry-pi-nodejs/">Reference</a></p>
+
 <h4 id="download-the-astroplant-firmware">Download the AstroPlant firmware</h4>
 <p>Clone the latest version of the firmware. We put the code in /home/pi/astroplant. Also add the right certificates for AWS.</p>
 
@@ -271,7 +291,7 @@ sudo i2cdetect -y 1
 <h4 id="boot-the-node-server-at-startup">Boot the node server at startup</h4>
 <p>We use the ‘forever’ module to keep the server running:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>npm install -g forever
+<div class="highlighter-rouge"><pre class="highlight"><code>sudo npm install -g forever
 crontab -u pi -e
 @reboot /usr/bin/sudo -u pi -H /usr/local/bin/forever start -e /home/pi/astroplant/logs/error.log -l /home/pi/astroplant/logs/logs.log -a /home/pi/astroplant/raspberry/server/server.js
 --&gt; ctrl-x

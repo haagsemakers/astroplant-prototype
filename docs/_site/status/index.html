@@ -6,7 +6,7 @@
 
 <title>
   
-    Components &middot; AstroPlant Development Kit
+    Current Status of the prototype &middot; AstroPlant Development Kit
   
 </title>
 
@@ -40,7 +40,7 @@
         <a  class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item">
-        <a  class="active nav-link" class="nav-link" href="/components">Components</a>
+        <a  class="nav-link" href="/components">Components</a>
       </li>
       <li class="nav-item">
         <a  class="nav-link" href="/installation">Installation</a>
@@ -52,7 +52,7 @@
         <a  class="nav-link" href="/app">App</a>
       </li>
       <li class="nav-item">
-        <a  class="nav-link" href="/status">Status</a>
+        <a  class="active nav-link" class="nav-link" href="/status">Status</a>
       </li>
     </ul>
   </div>
@@ -81,71 +81,22 @@
 
         </div>
         <div class="col-12 col-md-9 pull-md-3 bd-content">
-          <h1 class="bd-title" id="content">Components</h1>
-          <p>This pages provides an overview of the components of the current development version of the AstroPlant kit.
-For this prototype version we use an Arduino Pi 0W for the main process, and an extra Arduino to communicate with all the sensors.</p>
+          <h1 class="bd-title" id="content">Current Status of the prototype</h1>
+          <p>This page provides a quick overview of the current status of the AstroPlant Prototype.</p>
 
-<p>Because of the small form factor and the low costs, the raspberry zero is very suitable for the job. For the next version, the Arduino could be eliminated. By connecting the sensors directly to the GPIO pins of the RPi, and/or by creating a dedicated sensor shield for the raspberry.</p>
+<h2 id="v001-plant-grow-kit">v0.0.1: Plant Grow Kit</h2>
+<p>Status: Finished</p>
 
-<h2 id="overview">Overview</h2>
-<p><img src="https://docs.google.com/drawings/d/1ZLDQU9GknBh5WbjXxTsYQXWPzd7A0CwQDUdHlPiAT8o/pub?w=960&amp;h=720" class="img-fluid" /></p>
+<h2 id="v01-rpi--arduino-m0--grove-shield">v0.1: RPi + Arduino M0 + Grove Shield</h2>
+<p><strong>Status: in development</strong></p>
 
-<p><img src="/assets/img/prototype-01.jpg" class="img-fluid" /></p>
-
-<h2 id="components-list">Components list</h2>
-<p>The current list of components is:</p>
-
+<h2 id="future-version">Future version</h2>
+<p>Possibilities:</p>
 <ul>
-  <li>Casing
-    <ul>
-      <li><a href="http://ikea.com/nl/nl/catalog/products/50318440/">IKEA Krydda Kweekeenheid</a></li>
-      <li><a href="http://www.ikea.com/nl/nl/catalog/products/10318729/">IKEE Växer planteninzet</a></li>
-      <li>Softboard cut to the right size</li>
-    </ul>
-  </li>
-  <li>The Brain
-    <ul>
-      <li><a href="https://www.kiwi-electronics.nl/raspberry-pi-zero-w">Raspberry Pi Zero W	KW-1795</a></li>
-      <li><a href="https://www.kiwi-electronics.nl/Transcend-8GB-Class-10-MicroSDHC-UHS-1">Transcend 8GB Class 10 MicroSDHC - UHS-1 - 60MB/s	TS8GUSDCU1</a></li>
-      <li><a href="https://www.kiwi-electronics.nl/arduino-m0">Arduino M0	ARD-A000103</a></li>
-      <li><a href="https://www.kiwi-electronics.nl/grove-base-shield">Grove - Base Shield voor Arduino V2	SS-103030000</a></li>
-    </ul>
-  </li>
-  <li>Power
-    <ul>
-      <li><a href="https://www.kiwi-electronics.nl/rpi-psu-5-1v-2-5a--eu-uk">Raspberry Pi Voeding 5.1V/2.5A - 12.5W - MicroUSB - EU/UK Plug	KW-1599</a></li>
-      <li><a href="https://www.kiwi-electronics.nl/grove-relay">Grove - Relay	SS-103020005</a></li>
-    </ul>
-  </li>
-  <li>Sensors
-    <ul>
-      <li><a href="https://www.kiwi-electronics.nl/raspberry-pi-noir-camera-board-v2-8mp">Raspberry Pi Zero W NoIR Camera</a></li>
-      <li><a href="https://www.kiwi-electronics.nl/grove-digital-light-sensor">Grove - Digital Light Sensor	SS-101020030</a></li>
-      <li><a href="https://www.kiwi-electronics.nl/Waterproof-DS18B20-Digital-temperature-sensor-plus-resistor">Waterbestendige DS18B20 digitale temperatuursensor + weerstand ADA-381</a></li>
-      <li><a href="https://www.kiwi-electronics.nl/grove-temp-humi-barometer-sensor-bme280">Grove - Temp&amp;Humi&amp;Barometer Sensor (BME280) SS-101020193</a></li>
-      <li><a href="https://www.kiwi-electronics.nl/grove-digital-infrared-temperature-sensor">Grove - Digital Infrared Temperature Sensor SS-101020077</a></li>
-      <li><a href="https://www.kiwi-electronics.nl/grove-water-sensor">Grove - Water Sensor	SS-101020018</a></li>
-    </ul>
-  </li>
-  <li>Actuators
-    <ul>
-      <li><a href="https://www.kiwi-electronics.nl/led-rgb-strip-addressable-1m">LED RGB Strip-Addressable - 1M	MB-13406</a></li>
-      <li><a href="https://www.kiwi-electronics.nl/makeblock-cooling-fan">Makeblock Cooling Fan	MB-14405</a></li>
-    </ul>
-  </li>
-  <li>Supplies
-    <ul>
-      <li><a href="https://www.kiwi-electronics.nl/grove-4-pin-female-jumper-to-grove-4-pin-conversion-cable-5-pack">4 pin Female Jumper to Grove 4 pin Conversion Cable - 5-pack	SS-110990028</a></li>
-      <li>pin headers</li>
-      <li>double sided tape</li>
-      <li>ducttape</li>
-      <li>insulation tape</li>
-      <li>micro-usb to usb cable (arduino to computer)</li>
-      <li>micro sd adapter</li>
-      <li>soldering iron</li>
-      <li></li>
-    </ul>
-  </li>
+  <li>RPi0w + Arduino pro mini + breadboard</li>
+  <li>RPi0w + Grove RPi board (How about ADC?)</li>
+  <li>RPi0W + Custom shield
+ -</li>
 </ul>
 
         </div>

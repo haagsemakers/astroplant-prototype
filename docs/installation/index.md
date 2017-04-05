@@ -22,6 +22,9 @@ The idea for future version is that you could attached multiple Arduino's (Astro
 Since there are limited USB ports on the Raspberry, and the fact that there is a possibility to connect up to 128 slaves we chose to use the I2C connection. Using I2C we can connect the two directly, without using a Level Logic Converter. The reason it works is because the Arduino does not have any pull-ups resistors installed, but the P1 header on the Raspberry Pi has 1k8 ohms resistors to the 3.3 volts power rail. Data is transmitted by pulling the lines to 0v, for a “high” logic signal. For “low” logic signal, it’s pulled up to the supply rail voltage level. Because there is no pull-up resistors in the Arduino and because 3.3 volts is within the “low” logic level range for the Arduino everything works as it should [[Source]](https://oscarliang.com/raspberry-pi-arduino-connected-i2c/).
 
 Note that the built-in pull-up resistors are only available on the Pi’s I2C pins: [Pins 3 (SDA) and 5 (SCL)]( https://pinout.xyz/pinout/1_wire_pi_zero). On the Arduino Uno, the I2C pins are pins A4 (SDA) and A5 (SCL).
+<br><img src="{{site.baseurl}}/assets/img/pi0pinout.png" width="300"/>
+
+The arduino is powered by the raspberry. Connect GND and 5V with the GND and 5V of the Arduino. 
 
 #### Component connection list
 
@@ -41,29 +44,31 @@ Note that the built-in pull-up resistors are only available on the Pi’s I2C pi
     - Input Voltage: 3.3 is possible, 5v is typical
     - Operating current:
     - Connect using I2C, address 0x29
-    - Use this [Library](https://github.com/Seeed-Studio/Grove_Digital_Light_Sensor)
+    - [Library](https://github.com/Seeed-Studio/Grove_Digital_Light_Sensor)
   - Grove Barometer Sensor
     - [Seed Studio Wiki](http://wiki.seeed.cc/Grove-Barometer_Sensor-BME280/)
     - Input Voltage: 3.3V or 5V
     - Operating current: 0.4mA
     - Connection: I2C (default), address 0x76
-    - Use this [library](https://github.com/Seeed-Studio/Grove_BME280)
-  - Grove Digital Infrared Temperature Sensor
+    - [library](https://github.com/Seeed-Studio/Grove_BME280)
+  - Grove Digital Infrared Temperature Sensor (Not working yet)
     - [Seed Studio Wiki](http://www.seeedstudio.com/wiki/Grove_-_Digital_Infrared_Temperature_Sensor)
     - Input Voltage: 3.3V or 5V
     - Operating current: 0.4mA
     - Connection: Since the sensor is factory calibrated with the digital SMBus compatible interface enabled,but the library is based on a soft i2c library,so you can use any digital pins on any AVR chip to drive the SDA and SCL lines.We use D2 as the SCL pin and D3 as the SDA pin in this demo code.
-    - Use this [Library](https://github.com/Seeed-Studio/Digital_Infrared_Temperature_Sensor_MLX90615)
+    - [Library](https://github.com/Seeed-Studio/Digital_Infrared_Temperature_Sensor_MLX90615)
   - Grove Water Sensor
     - [Seed Studio Wiki](http://wiki.seeed.cc/Grove-Water_Sensor/)
     - Input Voltage: 3.3V or 5V
     - Operating current: 1.4mA
     - Connection: I2C
+
   - DS18B20 Digital Temperature Sensor
     - Input Voltage: 3.0V to 5.5V
     - Operating Current: ..
     - [Example code](https://create.arduino.cc/projecthub/TheGadgetBoy/ds18b20-digital-temperature-sensor-and-arduino-9cc806)
     - [Library](https://github.com/milesburton/Arduino-Temperature-Control-Library)
+
   - LED Light Strip
     - Input Voltage: 5V
     - Operating Current: 1.8A/m (maximum, depending on number of leds and brightness)
@@ -83,7 +88,7 @@ Current development is being done on Mac OSX, we have used the following softwar
 ### Raspberry Pi
 
 #### Raspberry Pi Installation
-We use a Raspberry Pi Zero W. This is a low cost and small micro-computer with onboard wifi and bluetooth. The Raspberry is the heart of the AstroPlant. For the prototype, we have to hardcode the wifi credentials for the location where the AstroPlant is placed. It is possible to add multiple wifi access points. We use [ApplePiBaker](https://www.tweaking4all.com/software/macosx-software/macosx-apple-pi-baker/) to install [Raspbian Jessie Lite](https://www.raspberrypi.org/downloads/raspbian/) to the sd-card.  
+We use a Raspberry Pi Zero W. This is a low cost and small micro-computer with onboard wifi and bluetooth. The Raspberry is the heart of the AstroPlant. For the prototype, we have to hardcode the wifi credentials for the location where the AstroPlant is placed. It is possible to add multiple wifi access points. We use [ApplePiBaker](https://www.tweaking4all.com/software/macosx-software/macosx-apple-pi-baker/) to install [Raspbian Jessie Lite](https://www.raspberrypi.org/downloads/raspbian/) ([download link](https://downloads.raspberrypi.org/raspbian_lite_latest)) to the sd-card.  
 
 #### Raspberry Pi Configuration
 We need to add and configure some files in the boot partition of the sd-card. This is to make sure the Raspberry will boot up in the right way.  
@@ -114,10 +119,16 @@ We need to add and configure some files in the boot partition of the sd-card. Th
 At this point, it can be difficult to obtain the ip-address of the device. For now, it is needed to look up the ip-address of 'raspberrypi' in the router network list. This means you have to log into the router and look up the device.
 When you know the ip-address you can use SSH to login: pi@192.x.x.x with the default password 'raspberry'.  
 
-#### Change the hostname
+
+
+#### Initialization
 To make it easier to identify the kit on the network, it is better to change the hostname of the device. The default hostname is 'raspberrypi'. Let's change that to 'astroplant001'
 
+      sudo apt-get update
+      sudo apt-get upgrade
       sudo raspi-config
+      --> advanced: expand filesystem
+      --> Localization options, change timezone, : en_GB.UTF_8
       --> change hostname: astroplant001
       --> finish
 
@@ -141,6 +152,14 @@ To make communication between the raspberry and arduino possible, we need to ena
 
   [Reference](https://learn.adafruit.com/adafruits-raspberry-pi-lesson-4-gpio-setup/configuring-i2c)
 
+#### Install NodeJS
+
+    wget http://node-arm.herokuapp.com/node_latest_armhf.deb
+    sudo dpkg -i node_latest_armhf.deb
+    node -v
+
+  [Reference](http://weworkweplay.com/play/raspberry-pi-nodejs/)
+
 #### Download the AstroPlant firmware
 Clone the latest version of the firmware. We put the code in /home/pi/astroplant. Also add the right certificates for AWS.
 
@@ -153,7 +172,7 @@ Clone the latest version of the firmware. We put the code in /home/pi/astroplant
 #### Boot the node server at startup
 We use the 'forever' module to keep the server running:
 
-    npm install -g forever
+    sudo npm install -g forever
     crontab -u pi -e
     @reboot /usr/bin/sudo -u pi -H /usr/local/bin/forever start -e /home/pi/astroplant/logs/error.log -l /home/pi/astroplant/logs/logs.log -a /home/pi/astroplant/raspberry/server/server.js
     --> ctrl-x
