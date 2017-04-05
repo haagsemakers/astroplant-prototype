@@ -11,6 +11,9 @@ Status: Finished
 ## v0.1: RPi + Arduino M0 + Grove Shield
 **Status: in development**
 
+### Sensors
+Water sensor: working return boolean
+Digital Light sensor: 
 
 
 ## Future version
