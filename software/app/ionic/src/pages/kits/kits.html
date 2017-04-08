@@ -1,0 +1,40 @@
+<!--
+  Generated template for the Kits page.
+
+  See http://ionicframework.com/docs/v2/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Kits</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <ion-card>
+    <a (click)="showKit('001')">
+      <img src="assets/img/astroplant.png"/>
+
+      <ion-card-content>
+        <ion-card-title>Prototype 1</ion-card-title>
+        <p>This is the first prototype of the Astroplant. We created a setup of a Raspberry Pi Zero W with an Arduino. </p>
+      </ion-card-content>
+
+      <ion-item>
+        <ion-icon name='leaf' item-left style="color: #d03e84"></ion-icon>
+        Owner: The Plant Guru
+        <ion-badge item-right>340 points</ion-badge>
+      </ion-item>
+
+      <ion-item>
+        <ion-icon name='checkbox' item-left style="color: #55acee"></ion-icon>
+        Status: Operational
+        <ion-badge item-right>23d</ion-badge>
+      </ion-item>
+    </a>
+
+  </ion-card>
+</ion-content>
