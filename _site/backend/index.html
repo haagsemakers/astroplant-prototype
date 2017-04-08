@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<title>
+  
+    Backend &middot; AstroPlant Development Kit
+  
+</title>
+
+<!-- Bootstrap core CSS -->
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Documentation extras -->
+<link rel="stylesheet" href="/assets/css/styles.css">
+
+<!-- Favicons -->
+<!-- <link rel="apple-touch-icon" href="/apple-touch-icon.png"> -->
+<!-- <link rel="icon" href="/favicon.ico"> -->
+
+  </head>
+  <body class="bd-docs" data-spy="scroll" data-target=".bd-sidenav-active">
+    <a id="skippy" class="sr-only sr-only-focusable" href="#content">
+      <div class="container">
+        <span class="skiplink-text">Skip to main content</span>
+      </div>
+    </a>
+
+    <nav class="navbar navbar-toggleable-md navbar-light bg-faded">
+  <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <a class="navbar-brand" href="/">Astroplant Dev Kit</a>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <a  class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a  class="nav-link" href="/components">Components</a>
+      </li>
+      <li class="nav-item">
+        <a  class="nav-link" href="/installation">Installation</a>
+      </li>
+      <li class="nav-item">
+        <a  class="active nav-link" class="nav-link" href="/backend">Backend</a>
+      </li>
+      <li class="nav-item">
+        <a  class="nav-link" href="/app">App</a>
+      </li>
+      <li class="nav-item">
+        <a  class="nav-link" href="/status">Status</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+
+    <div class="container">
+      <div class="row">
+        <div class="col-12 col-md-3 push-md-9 bd-sidebar">
+          <!-- <form class="bd-search d-none d-sm-block">
+  <input type="search" class="form-control" id="search-input" placeholder="Search..." aria-label="Search for..." autocomplete="off">
+  <div class="dropdown-menu bd-search-results" id="search-results"></div>
+</form>
+
+<nav class="bd-links" id="docsNavbarContent">
+  
+  
+</nav> -->
+
+<img src="/assets/img/astroplant.jpg" class="img-fluid">
+
+<br>
+<br>
+<br>
+<a href="https://github.com/urbanlink/astroplant-prototype)"><svg aria-hidden="true" class="octicon octicon-mark-github" height="32" version="1.1" viewBox="0 0 16 16" width="32"><path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path></svg> Github</a>
+
+        </div>
+        <div class="col-12 col-md-9 pull-md-3 bd-content">
+          <h1 class="bd-title" id="content">Backend</h1>
+          <p>The backend of AstroPlant is a cloud-based solution based on Microservices architecture.</p>
+
+<p>We use Amazon Web Services (AWS) to perform all the backend processing.</p>
+
+<p>The backend consists of the following elements:</p>
+<ul>
+  <li>API Gateway: Publish api endpoints, handle permissions and actions.</li>
+  <li>Lambda Functions: Perform a function based on the request.</li>
+  <li>AWS-IOT: A solution to handle IoT devices in the cloud.</li>
+  <li>DynamoDB: noSql storage</li>
+</ul>
+
+<h2 id="api-gateway">API Gateway</h2>
+<p>The api gateway is the REST interface to retrieve data from the database and data about IOT things. At this moment the API is very limited. You can get info about a kit, and retrieve the latest datapoints. Based on further development of the AstroPlant this API can be extended.</p>
+
+<p>Current API endpoints:</p>
+<ul>
+  <li>GET /kits -&gt; Get a listing of all the kits</li>
+  <li>GET /kits/{id} -&gt; Get details of a specific kit</li>
+  <li>GET /kits/{id}/data -&gt; Get the latest data points of the selected kit</li>
+</ul>
+
+<h2 id="lambda-functions">Lambda functions</h2>
+<p>These functions are stand alone micro-services. These functions can be called by AWS IoT, API Gateway and DynamoDB triggers.
+Check out the code for the current lambda functions.</p>
+
+<h2 id="aws-iot">AWS IoT</h2>
+<p>Each AstroPlant kit is a ‘thing’ in AWS IoT. Using key certificates, it is possible to connect the raspberry directly with AWS IOT. This makes it possible to send data to the online AWS IoT thing. The message broker at AWS IoT handles the request. In most cases this will be the storage of data in the database.</p>
+
+<h2 id="dynamodb">DynamoDB</h2>
+<p>The database is a noSQL database. The structure is at the moment:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="w">  </span><span class="p">{</span><span class="w">
+    </span><span class="err">id:</span><span class="w"> </span><span class="err">{kit</span><span class="w"> </span><span class="err">id</span><span class="p">}</span><span class="err">,</span><span class="w">
+    </span><span class="err">details:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="err">id:</span><span class="w"> </span><span class="err">{id</span><span class="p">}</span><span class="err">,</span><span class="w">
+      </span><span class="err">ip:</span><span class="w"> </span><span class="p">{</span><span class="err">latest</span><span class="w"> </span><span class="err">ip</span><span class="w"> </span><span class="err">address</span><span class="p">}</span><span class="err">,</span><span class="w">
+      </span><span class="err">admin:</span><span class="w"> </span><span class="p">{</span><span class="err">email</span><span class="p">}</span><span class="err">,</span><span class="w">
+      </span><span class="err">description:</span><span class="w"> </span><span class="p">{</span><span class="err">kit</span><span class="w"> </span><span class="err">description</span><span class="p">}</span><span class="w">
+    </span><span class="err">},</span><span class="w">
+    </span><span class="err">data:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="err">sensor1:</span><span class="w"> </span><span class="err">[{</span><span class="w">
+        </span><span class="err">timestamp:</span><span class="w"> </span><span class="err">{time</span><span class="p">}</span><span class="err">,</span><span class="w">
+        </span><span class="err">value:</span><span class="w"> </span><span class="p">{</span><span class="err">value</span><span class="p">}</span><span class="w">
+      </span><span class="err">}],</span><span class="w">
+      </span><span class="err">sensor</span><span class="mi">2</span><span class="err">:</span><span class="w"> </span><span class="p">[{</span><span class="w">
+        </span><span class="err">timestamp:</span><span class="w"> </span><span class="err">{time</span><span class="p">},</span><span class="w">
+        </span><span class="err">value:</span><span class="w"> </span><span class="p">{</span><span class="err">value</span><span class="p">}</span><span class="w">
+      </span><span class="err">}</span><span class="p">]</span><span class="err">,</span><span class="w">
+      </span><span class="err">sensor</span><span class="mi">3</span><span class="err">:</span><span class="w"> </span><span class="p">[{</span><span class="w">
+        </span><span class="err">timestamp:</span><span class="w"> </span><span class="err">{time</span><span class="p">},</span><span class="w">
+        </span><span class="err">value:</span><span class="w"> </span><span class="p">{</span><span class="err">value</span><span class="p">}</span><span class="w">
+      </span><span class="err">}</span><span class="p">]</span><span class="err">,</span><span class="w">
+      </span><span class="err">sensor</span><span class="mi">4</span><span class="err">:</span><span class="w"> </span><span class="p">[{</span><span class="w">
+        </span><span class="err">timestamp:</span><span class="w"> </span><span class="err">{time</span><span class="p">},</span><span class="w">
+        </span><span class="err">value:</span><span class="w"> </span><span class="p">{</span><span class="err">value</span><span class="p">}</span><span class="w">
+      </span><span class="err">}</span><span class="p">]</span><span class="err">,</span><span class="w">
+    </span><span class="err">}</span><span class="w">
+  </span><span class="err">}</span><span class="w">
+</span></code></pre>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    <footer class="bd-footer text-muted">
+  <div class="container">
+      <ul class="bd-footer-links">
+        <li><a href="https://github.com/urbanlink/astroplant-prototype"><svg aria-hidden="true" class="octicon octicon-mark-github" height="16" version="1.1" viewBox="0 0 16 16" width="32"><path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path></svg> GitHub</a></li>
+      </ul>
+      <p>Designed and built with all the love in the world by <a href="https://twitter.com/haagsemakers" target="_blank">@haagsemakers</a> and <a href="https://twitter.com/borderlabs" target="_blank">@borderlabs</a>. Maintained by the <a href="https://github.com/orgs/urbanlink/astroplant/people">core team</a> with the help of <a href="https://github.com/urbanlink/astroplant-prototype/graphs/contributors">our contributors</a>.</p>
+      <p>Currently v0.1. Code licensed <a rel="license" href="https://github.com/twbs/bootstrap/blob/master/LICENSE" target="_blank">MIT</a>, docs <a rel="license" href="https://creativecommons.org/licenses/by/3.0/" target="_blank">CC BY 3.0</a>.</p>
+  </div>
+</footer>
+
+
+<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"></script>
+
+<script src="/assets/js/src/application.js"></script>
+
+  </body>
+</html>
