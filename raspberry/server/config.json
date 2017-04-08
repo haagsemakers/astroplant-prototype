@@ -1,9 +1,0 @@
-{
-  "UID": "001",
-  "host": "a24pp2pupvygk.iot.eu-central-1.amazonaws.com",
-  "caCert": "./certs/rootCA.pem",
-  "clientCert": "./certs/ecf038fd4c-certificate.pem.crt",
-  "privateKey": "./certs/ecf038fd4c-private.pem.key",
-  "region": "eu-central-1",
-  "sendInterval": "10000"
-}

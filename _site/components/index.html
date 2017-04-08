@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<title>
+  
+    Components &middot; AstroPlant Development Kit
+  
+</title>
+
+<!-- Bootstrap core CSS -->
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Documentation extras -->
+<link rel="stylesheet" href="/assets/css/styles.css">
+
+<!-- Favicons -->
+<!-- <link rel="apple-touch-icon" href="/apple-touch-icon.png"> -->
+<!-- <link rel="icon" href="/favicon.ico"> -->
+
+  </head>
+  <body class="bd-docs" data-spy="scroll" data-target=".bd-sidenav-active">
+    <a id="skippy" class="sr-only sr-only-focusable" href="#content">
+      <div class="container">
+        <span class="skiplink-text">Skip to main content</span>
+      </div>
+    </a>
+
+    <nav class="navbar navbar-toggleable-md navbar-light bg-faded">
+  <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <a class="navbar-brand" href="/">Astroplant Dev Kit</a>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <a  class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a  class="active nav-link" class="nav-link" href="/components">Components</a>
+      </li>
+      <li class="nav-item">
+        <a  class="nav-link" href="/installation">Installation</a>
+      </li>
+      <li class="nav-item">
+        <a  class="nav-link" href="/backend">Backend</a>
+      </li>
+      <li class="nav-item">
+        <a  class="nav-link" href="/app">App</a>
+      </li>
+      <li class="nav-item">
+        <a  class="nav-link" href="/status">Status</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+
+    <div class="container">
+      <div class="row">
+        <div class="col-12 col-md-3 push-md-9 bd-sidebar">
+          <!-- <form class="bd-search d-none d-sm-block">
+  <input type="search" class="form-control" id="search-input" placeholder="Search..." aria-label="Search for..." autocomplete="off">
+  <div class="dropdown-menu bd-search-results" id="search-results"></div>
+</form>
+
+<nav class="bd-links" id="docsNavbarContent">
+  
+  
+</nav> -->
+
+<img src="/assets/img/astroplant.jpg" class="img-fluid">
+
+<br>
+<br>
+<br>
+<a href="https://github.com/urbanlink/astroplant-prototype)"><svg aria-hidden="true" class="octicon octicon-mark-github" height="32" version="1.1" viewBox="0 0 16 16" width="32"><path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path></svg> Github</a>
+
+        </div>
+        <div class="col-12 col-md-9 pull-md-3 bd-content">
+          <h1 class="bd-title" id="content">Components</h1>
+          <p>This pages provides an overview of the components of the current development version of the AstroPlant kit.
+For this prototype version we use an Arduino Pi 0W for the main process, and an extra Arduino to communicate with all the sensors.</p>
+
+<p>Because of the small form factor and the low costs, the raspberry zero is very suitable for the job. For the next version, the Arduino could be eliminated. By connecting the sensors directly to the GPIO pins of the RPi, and/or by creating a dedicated sensor shield for the raspberry.</p>
+
+<h2 id="overview">Overview</h2>
+<p><img src="https://docs.google.com/drawings/d/1ZLDQU9GknBh5WbjXxTsYQXWPzd7A0CwQDUdHlPiAT8o/pub?w=960&amp;h=720" class="img-fluid" /></p>
+
+<p><img src="/assets/img/prototype-01.jpg" class="img-fluid" /></p>
+
+<h2 id="components-list">Components list</h2>
+<p>The current list of components is:</p>
+
+<ul>
+  <li>Casing
+    <ul>
+      <li><a href="http://ikea.com/nl/nl/catalog/products/50318440/">IKEA Krydda Kweekeenheid</a></li>
+      <li><a href="http://www.ikea.com/nl/nl/catalog/products/10318729/">IKEE Växer planteninzet</a></li>
+      <li>Softboard cut to the right size</li>
+    </ul>
+  </li>
+  <li>The Brain
+    <ul>
+      <li><a href="https://www.kiwi-electronics.nl/raspberry-pi-zero-w">Raspberry Pi Zero W	KW-1795</a></li>
+      <li><a href="https://www.kiwi-electronics.nl/Transcend-8GB-Class-10-MicroSDHC-UHS-1">Transcend 8GB Class 10 MicroSDHC - UHS-1 - 60MB/s	TS8GUSDCU1</a></li>
+      <li><a href="https://www.kiwi-electronics.nl/arduino-m0">Arduino M0	ARD-A000103</a></li>
+      <li><a href="https://www.kiwi-electronics.nl/grove-base-shield">Grove - Base Shield voor Arduino V2	SS-103030000</a></li>
+    </ul>
+  </li>
+  <li>Power
+    <ul>
+      <li><a href="https://www.kiwi-electronics.nl/rpi-psu-5-1v-2-5a--eu-uk">Raspberry Pi Voeding 5.1V/2.5A - 12.5W - MicroUSB - EU/UK Plug	KW-1599</a></li>
+      <li><a href="https://www.kiwi-electronics.nl/grove-relay">Grove - Relay	SS-103020005</a></li>
+    </ul>
+  </li>
+  <li>Sensors
+    <ul>
+      <li><a href="https://www.kiwi-electronics.nl/raspberry-pi-noir-camera-board-v2-8mp">Raspberry Pi Zero W NoIR Camera</a></li>
+      <li><a href="https://www.kiwi-electronics.nl/grove-digital-light-sensor">Grove - Digital Light Sensor	SS-101020030</a></li>
+      <li><a href="https://www.kiwi-electronics.nl/Waterproof-DS18B20-Digital-temperature-sensor-plus-resistor">Waterbestendige DS18B20 digitale temperatuursensor + weerstand ADA-381</a></li>
+      <li><a href="https://www.kiwi-electronics.nl/grove-temp-humi-barometer-sensor-bme280">Grove - Temp&amp;Humi&amp;Barometer Sensor (BME280) SS-101020193</a></li>
+      <li><a href="https://www.kiwi-electronics.nl/grove-digital-infrared-temperature-sensor">Grove - Digital Infrared Temperature Sensor SS-101020077</a></li>
+      <li><a href="https://www.kiwi-electronics.nl/grove-water-sensor">Grove - Water Sensor	SS-101020018</a></li>
+    </ul>
+  </li>
+  <li>Actuators
+    <ul>
+      <li><a href="https://www.kiwi-electronics.nl/led-rgb-strip-addressable-1m">LED RGB Strip-Addressable - 1M	MB-13406</a></li>
+      <li><a href="https://www.kiwi-electronics.nl/makeblock-cooling-fan">Makeblock Cooling Fan	MB-14405</a></li>
+    </ul>
+  </li>
+  <li>Supplies
+    <ul>
+      <li><a href="https://www.kiwi-electronics.nl/grove-4-pin-female-jumper-to-grove-4-pin-conversion-cable-5-pack">4 pin Female Jumper to Grove 4 pin Conversion Cable - 5-pack	SS-110990028</a></li>
+      <li>pin headers</li>
+      <li>double sided tape</li>
+      <li>ducttape</li>
+      <li>insulation tape</li>
+      <li>micro-usb to usb cable (arduino to computer)</li>
+      <li>micro sd adapter</li>
+      <li>soldering iron</li>
+      <li></li>
+    </ul>
+  </li>
+</ul>
+
+        </div>
+      </div>
+    </div>
+
+    <footer class="bd-footer text-muted">
+  <div class="container">
+      <ul class="bd-footer-links">
+        <li><a href="https://github.com/urbanlink/astroplant-prototype"><svg aria-hidden="true" class="octicon octicon-mark-github" height="16" version="1.1" viewBox="0 0 16 16" width="32"><path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path></svg> GitHub</a></li>
+      </ul>
+      <p>Designed and built with all the love in the world by <a href="https://twitter.com/haagsemakers" target="_blank">@haagsemakers</a> and <a href="https://twitter.com/borderlabs" target="_blank">@borderlabs</a>. Maintained by the <a href="https://github.com/orgs/urbanlink/astroplant/people">core team</a> with the help of <a href="https://github.com/urbanlink/astroplant-prototype/graphs/contributors">our contributors</a>.</p>
+      <p>Currently v0.1. Code licensed <a rel="license" href="https://github.com/twbs/bootstrap/blob/master/LICENSE" target="_blank">MIT</a>, docs <a rel="license" href="https://creativecommons.org/licenses/by/3.0/" target="_blank">CC BY 3.0</a>.</p>
+  </div>
+</footer>
+
+
+<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"></script>
+
+<script src="/assets/js/src/application.js"></script>
+
+  </body>
+</html>
