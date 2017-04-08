@@ -1,0 +1,6 @@
+/node_modules
+Icon
+aws/Lambda/wmg_update/node_modules
+raspberry/server/certs
+raspberry/server/node_modules
+raspberry/configuration/wpa_supplicant.conf
