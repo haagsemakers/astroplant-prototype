@@ -24,7 +24,7 @@ Since there are limited USB ports on the Raspberry, and the fact that there is a
 Note that the built-in pull-up resistors are only available on the Pi’s I2C pins: [Pins 3 (SDA) and 5 (SCL)]( https://pinout.xyz/pinout/1_wire_pi_zero). On the Arduino Uno, the I2C pins are pins A4 (SDA) and A5 (SCL).
 <br><img src="{{site.baseurl}}/assets/img/pi0pinout.png" width="300"/>
 
-The arduino is powered by the raspberry. Connect GND and 5V with the GND and 5V of the Arduino. 
+The arduino is powered by the raspberry. Connect GND and 5V with the GND and 5V of the Arduino.
 
 #### Component connection list
 
@@ -159,6 +159,12 @@ To make communication between the raspberry and arduino possible, we need to ena
     node -v
 
   [Reference](http://weworkweplay.com/play/raspberry-pi-nodejs/)
+
+#### Install Johnny-five
+https://github.com/nebrius/raspi-io/wiki/Getting-a-Raspberry-Pi-ready-for-NodeBots
+
+    sudo apt-get install git wiringpi
+    
 
 #### Download the AstroPlant firmware
 Clone the latest version of the firmware. We put the code in /home/pi/astroplant. Also add the right certificates for AWS.
