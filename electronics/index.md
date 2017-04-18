@@ -1,12 +1,8 @@
 ---
 layout: default
-title: Installation
+title: Electronics installation
 ---
 
-This page describes the installation of the AstroPlant Development Kit.
-
-<hr>
-## Hardware
 Connecting all hardware components for the development kit is pretty straightforward. For this prototype version we have chosen to use as many plug-and-play and of-the-shelf products as possible. So we use an IKEA plant care kit in combination with basic Grove sensors.
 
 ### Connect the electronic components
@@ -22,15 +18,17 @@ The arduino is powered by the raspberry. Connect GND and 5V with the GND and 5V 
 
 #### Component connection list
 
-  1. Connect RPi 3 with Arduino A4
-  2. Connect RPi 5 with Arduino A5
-  3. Connect the **Digital Light Sensor** with Grove I2C
-  4. Connect the **Barometer** with Grove I2C
-  5. Connect the **Digital Infrared Temperature sensor** with Grove I2C
-  6. Connect the **Water sensor** with Grove D8
-  7. Connect the **DS18B20 digital temperature sensor**: Solder the wires to the Grove connector: red wire to 5V, black wire to GND, yellow wire for data. Connect the 4.7kOhm resistor with + and DATA. Connect to Grove D7
-  8. Connect the **LED Strip**: Solder the wires to a Grove connector. Connect to D6
-  9. Connect the **Cooling fan**: Solder the wires to a Grove connector. Connect to D5
+  1. Connect RPi 3 (SDA) with Arduino header pin A4
+  2. Connect RPi 5 (SCAL) with Arduino header pin A5
+  3. Connect RPi 4 (5V) with Arduino header pin 5V
+  4. Connect RPi 6 (GND) with Arduino header pin GND
+  5. Connect the **Digital Light Sensor** with Grove I2C
+  6. Connect the **Barometer** with Grove I2C
+  7. Connect the **Digital Infrared Temperature sensor** with Grove I2C
+  8. Connect the **Water sensor** with Grove D8
+  9. Connect the **DS18B20 digital temperature sensor**: Solder the wires to the Grove connector: red wire to 5V, black wire to GND, yellow wire for data. Connect the 4.7kOhm resistor with + and DATA. Connect to Grove D7
+  10. Connect the **LED Strip**: Solder the wires to a Grove connector. Connect to D6
+  11. Connect the **Cooling fan**: Solder the wires to a Grove connector. Connect to D5
 
 <hr>
 ## Software
@@ -168,6 +166,10 @@ To make the Arduino go to work, we have to upload the sketch (with required libr
 - Open the Arduino folder from the AstroPlant codebase
 - Verify and upload the sketch
 - Done!
+
+### Arduino - RPi communication
+The Raspberry and Arduino are connected by I2C. The Arduino has a continuous polling system for the sensors. Every minute (or a different timeframe you configure) the latest values of the sensors are being polled and stored in the Arduino.
+The software on the Raspberry has a polling interval as well. Based on the user's setting, the Arduino is polled for the latest values of the sensors. This communication is done using the I2C bus. The Arduino responses to an I2C bus request of the Raspberry and sends back the data.
 
 ## DONE!
 After a reboot, the system should be running and sending its data to the AstroPlant backend.

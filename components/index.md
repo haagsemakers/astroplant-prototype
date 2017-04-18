@@ -48,4 +48,39 @@ The current list of components is:
     - micro-usb to usb cable (arduino to computer)
     - micro sd adapter
     - soldering iron
-    -   
+
+## Components documentation:
+- Grove Digital Light Sensor:
+  - [Seed Studio Wiki](http://wiki.seeed.cc/Grove-Digital_Light_Sensor/)
+  - Input Voltage: 3.3 is possible, 5v is typical
+  - Operating current:
+  - Connect using I2C, address 0x29
+  - [Library](https://github.com/Seeed-Studio/Grove_Digital_Light_Sensor)
+- Grove Barometer Sensor
+  - [Seed Studio Wiki](http://wiki.seeed.cc/Grove-Barometer_Sensor-BME280/)
+  - Input Voltage: 3.3V or 5V
+  - Operating current: 0.4mA
+  - Connection: I2C (default), address 0x76
+  - [library](https://github.com/Seeed-Studio/Grove_BME280)
+- Grove Digital Infrared Temperature Sensor (Not working yet)
+  - [Seed Studio Wiki](http://www.seeedstudio.com/wiki/Grove_-_Digital_Infrared_Temperature_Sensor)
+  - Input Voltage: 3.3V or 5V
+  - Operating current: 0.4mA
+  - Connection: Since the sensor is factory calibrated with the digital SMBus compatible interface enabled,but the library is based on a soft i2c library,so you can use any digital pins on any AVR chip to drive the SDA and SCL lines.We use D2 as the SCL pin and D3 as the SDA pin in this demo code.
+  - [Library](https://github.com/Seeed-Studio/Digital_Infrared_Temperature_Sensor_MLX90615)
+- Grove Water Sensor
+  - [Seed Studio Wiki](http://wiki.seeed.cc/Grove-Water_Sensor/)
+  - Input Voltage: 3.3V or 5V
+  - Operating current: 1.4mA
+  - Connection: I2C
+
+- DS18B20 Digital Temperature Sensor
+  - Input Voltage: 3.0V to 5.5V
+  - Operating Current: ..
+  - [Example code](https://create.arduino.cc/projecthub/TheGadgetBoy/ds18b20-digital-temperature-sensor-and-arduino-9cc806)
+  - [Library](https://github.com/milesburton/Arduino-Temperature-Control-Library)
+
+- LED Light Strip
+  - Input Voltage: 5V
+  - Operating Current: 1.8A/m (maximum, depending on number of leds and brightness)
+  - [Library](http://learn.makeblock.com/Makeblock-library-for-Arduino/index.html)
