@@ -43,7 +43,10 @@
         <a  class="active nav-link" class="nav-link" href="/components">Components</a>
       </li>
       <li class="nav-item">
-        <a  class="nav-link" href="/installation">Installation</a>
+        <a  class="nav-link" href="/casing">Casing</a>
+      </li>
+      <li class="nav-item">
+        <a  class="nav-link" href="/electronics">Electronics</a>
       </li>
       <li class="nav-item">
         <a  class="nav-link" href="/backend">Backend</a>
@@ -77,7 +80,7 @@
 <br>
 <br>
 <br>
-<a href="https://github.com/urbanlink/astroplant-prototype)"><svg aria-hidden="true" class="octicon octicon-mark-github" height="32" version="1.1" viewBox="0 0 16 16" width="32"><path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path></svg> Github</a>
+<a href="https://github.com/urbanlink/astroplant-prototype"><svg aria-hidden="true" class="octicon octicon-mark-github" height="32" version="1.1" viewBox="0 0 16 16" width="32"><path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path></svg> Github</a>
 
         </div>
         <div class="col-12 col-md-9 pull-md-3 bd-content">
@@ -143,7 +146,60 @@ For this prototype version we use an Arduino Pi 0W for the main process, and an 
       <li>micro-usb to usb cable (arduino to computer)</li>
       <li>micro sd adapter</li>
       <li>soldering iron</li>
-      <li></li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="components-documentation">Components documentation:</h2>
+<ul>
+  <li>Grove Digital Light Sensor:
+    <ul>
+      <li><a href="http://wiki.seeed.cc/Grove-Digital_Light_Sensor/">Seed Studio Wiki</a></li>
+      <li>Input Voltage: 3.3 is possible, 5v is typical</li>
+      <li>Operating current:</li>
+      <li>Connect using I2C, address 0x29</li>
+      <li><a href="https://github.com/Seeed-Studio/Grove_Digital_Light_Sensor">Library</a></li>
+    </ul>
+  </li>
+  <li>Grove Barometer Sensor
+    <ul>
+      <li><a href="http://wiki.seeed.cc/Grove-Barometer_Sensor-BME280/">Seed Studio Wiki</a></li>
+      <li>Input Voltage: 3.3V or 5V</li>
+      <li>Operating current: 0.4mA</li>
+      <li>Connection: I2C (default), address 0x76</li>
+      <li><a href="https://github.com/Seeed-Studio/Grove_BME280">library</a></li>
+    </ul>
+  </li>
+  <li>Grove Digital Infrared Temperature Sensor (Not working yet)
+    <ul>
+      <li><a href="http://www.seeedstudio.com/wiki/Grove_-_Digital_Infrared_Temperature_Sensor">Seed Studio Wiki</a></li>
+      <li>Input Voltage: 3.3V or 5V</li>
+      <li>Operating current: 0.4mA</li>
+      <li>Connection: Since the sensor is factory calibrated with the digital SMBus compatible interface enabled,but the library is based on a soft i2c library,so you can use any digital pins on any AVR chip to drive the SDA and SCL lines.We use D2 as the SCL pin and D3 as the SDA pin in this demo code.</li>
+      <li><a href="https://github.com/Seeed-Studio/Digital_Infrared_Temperature_Sensor_MLX90615">Library</a></li>
+    </ul>
+  </li>
+  <li>Grove Water Sensor
+    <ul>
+      <li><a href="http://wiki.seeed.cc/Grove-Water_Sensor/">Seed Studio Wiki</a></li>
+      <li>Input Voltage: 3.3V or 5V</li>
+      <li>Operating current: 1.4mA</li>
+      <li>Connection: I2C</li>
+    </ul>
+  </li>
+  <li>DS18B20 Digital Temperature Sensor
+    <ul>
+      <li>Input Voltage: 3.0V to 5.5V</li>
+      <li>Operating Current: ..</li>
+      <li><a href="https://create.arduino.cc/projecthub/TheGadgetBoy/ds18b20-digital-temperature-sensor-and-arduino-9cc806">Example code</a></li>
+      <li><a href="https://github.com/milesburton/Arduino-Temperature-Control-Library">Library</a></li>
+    </ul>
+  </li>
+  <li>LED Light Strip
+    <ul>
+      <li>Input Voltage: 5V</li>
+      <li>Operating Current: 1.8A/m (maximum, depending on number of leds and brightness)</li>
+      <li><a href="http://learn.makeblock.com/Makeblock-library-for-Arduino/index.html">Library</a></li>
     </ul>
   </li>
 </ul>

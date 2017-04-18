@@ -43,7 +43,10 @@
         <a  class="nav-link" href="/components">Components</a>
       </li>
       <li class="nav-item">
-        <a  class="nav-link" href="/installation">Installation</a>
+        <a  class="nav-link" href="/casing">Casing</a>
+      </li>
+      <li class="nav-item">
+        <a  class="nav-link" href="/electronics">Electronics</a>
       </li>
       <li class="nav-item">
         <a  class="active nav-link" class="nav-link" href="/backend">Backend</a>
@@ -77,7 +80,7 @@
 <br>
 <br>
 <br>
-<a href="https://github.com/urbanlink/astroplant-prototype)"><svg aria-hidden="true" class="octicon octicon-mark-github" height="32" version="1.1" viewBox="0 0 16 16" width="32"><path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path></svg> Github</a>
+<a href="https://github.com/urbanlink/astroplant-prototype"><svg aria-hidden="true" class="octicon octicon-mark-github" height="32" version="1.1" viewBox="0 0 16 16" width="32"><path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path></svg> Github</a>
 
         </div>
         <div class="col-12 col-md-9 pull-md-3 bd-content">
@@ -94,7 +97,8 @@
   <li>DynamoDB: noSql storage</li>
 </ul>
 
-<h2 id="api-gateway">API Gateway</h2>
+<h2 id="backend-overview">Backend overview</h2>
+<h3 id="api-gateway">API Gateway</h3>
 <p>The api gateway is the REST interface to retrieve data from the database and data about IOT things. At this moment the API is very limited. You can get info about a kit, and retrieve the latest datapoints. Based on further development of the AstroPlant this API can be extended.</p>
 
 <p>Current API endpoints:</p>
@@ -104,14 +108,14 @@
   <li>GET /kits/{id}/data -&gt; Get the latest data points of the selected kit</li>
 </ul>
 
-<h2 id="lambda-functions">Lambda functions</h2>
+<h3 id="lambda-functions">Lambda functions</h3>
 <p>These functions are stand alone micro-services. These functions can be called by AWS IoT, API Gateway and DynamoDB triggers.
 Check out the code for the current lambda functions.</p>
 
-<h2 id="aws-iot">AWS IoT</h2>
+<h3 id="aws-iot">AWS IoT</h3>
 <p>Each AstroPlant kit is a ‘thing’ in AWS IoT. Using key certificates, it is possible to connect the raspberry directly with AWS IOT. This makes it possible to send data to the online AWS IoT thing. The message broker at AWS IoT handles the request. In most cases this will be the storage of data in the database.</p>
 
-<h2 id="dynamodb">DynamoDB</h2>
+<h3 id="dynamodb">DynamoDB</h3>
 <p>The database is a noSQL database. The structure is at the moment:</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code><span class="w">  </span><span class="p">{</span><span class="w">
@@ -141,6 +145,38 @@ Check out the code for the current lambda functions.</p>
       </span><span class="err">}</span><span class="p">]</span><span class="err">,</span><span class="w">
     </span><span class="err">}</span><span class="w">
   </span><span class="err">}</span><span class="w">
+</span></code></pre>
+</div>
+
+<h2 id="backend-installation">Backend installation</h2>
+<p>Login to your <a href="https://console.aws.amazon.com">AWS console</a></p>
+
+<p>Got to the <a href="https://eu-central-1.console.aws.amazon.com/iotv2/home?region=eu-central-1#/dashboard">AWS IOT Service</a>
+<img src="/assets/img/backend-01.png" class="img-fluid" /></p>
+
+<p>Create a <a href="https://eu-central-1.console.aws.amazon.com/iotv2/home?region=eu-central-1#/create/thing">new thing</a>
+<img src="/assets/img/backend-02.png" class="img-fluid" />
+<img src="/assets/img/backend-03.png" class="img-fluid" /></p>
+
+<p>Create a certificate for the new thing
+<img src="/assets/img/backend-04.png" class="img-fluid" />
+<img src="/assets/img/backend-05.png" class="img-fluid" />
+Download the three certificates and activate the root certificate</p>
+
+<p>Copy the certificates to the /certs/ folder on the raspberry pi. Keep them safe and secure!</p>
+
+<p>Create a policy for the certficate and attach it to the certificate</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"Version"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2012-10-17"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"Statement"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"Effect"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Allow"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"Action"</span><span class="p">:</span><span class="w"> </span><span class="s2">"iot:*"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"Resource"</span><span class="p">:</span><span class="w"> </span><span class="s2">"*"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
 </span></code></pre>
 </div>
 

@@ -7,7 +7,7 @@ social_logo_path: /assets/brand/astroplant-social-logo.png
 social_image_path: /assets/brand/astroplant-social.png
 
 current_version: 0.1
-repo: https://github.com/urbanlink/astroplant-prototype
+repo: https://github.com/haagsemakers/astroplant-prototype
 
 sass:
     sass_dir: _sass
